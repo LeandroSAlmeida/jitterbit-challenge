@@ -1,3 +1,4 @@
+const OrderResponseDTO = require('../dtos/OrderResponseDTO');
 const OrderNotFoundException = require('../../domain/exceptions/OrderNotFoundException');
 
 class UpdateOrder {
@@ -9,7 +10,8 @@ class UpdateOrder {
     const existing = await this.orderRepository.findById(orderId);
     if (!existing) throw new OrderNotFoundException(orderId);
 
-    return this.orderRepository.update(orderId, body);
+    const updated = await this.orderRepository.update(orderId, body);
+    return OrderResponseDTO.fromEntity(updated);
   }
 }
 
