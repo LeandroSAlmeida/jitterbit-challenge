@@ -1,13 +1,16 @@
 require('dotenv').config();
 
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
 const { connect } = require('./infrastructure/database/connection');
 const orderRoutes = require('./infrastructure/http/routes/orderRoutes');
 const errorHandler = require('./infrastructure/http/middlewares/errorHandler');
+const swaggerSpec = require('./infrastructure/http/docs/swagger');
 
 const app = express();
 
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/order', orderRoutes);
 app.use(errorHandler);
 
