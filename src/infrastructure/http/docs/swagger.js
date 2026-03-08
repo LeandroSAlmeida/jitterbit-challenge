@@ -56,8 +56,30 @@ const options = {
             message: { type: 'string', example: "Pedido 'v10089015vdb-01' não encontrado." },
           },
         },
+        LoginRequest: {
+          type: 'object',
+          required: ['username', 'password'],
+          properties: {
+            username: { type: 'string', example: 'admin' },
+            password: { type: 'string', example: 'admin123' },
+          },
+        },
+        LoginResponse: {
+          type: 'object',
+          properties: {
+            token: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' },
+          },
+        },
+      },
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
       },
     },
+    security: [{ bearerAuth: [] }],
   },
   apis: ['./src/infrastructure/http/docs/paths/*.js'],
 };
