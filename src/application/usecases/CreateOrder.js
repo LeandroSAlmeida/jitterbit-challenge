@@ -1,4 +1,5 @@
-const Order = require('../../domain/entities/Order');
+const CreateOrderDTO = require('../dtos/CreateOrderDTO');
+const OrderResponseDTO = require('../dtos/OrderResponseDTO');
 const OrderAlreadyExistsException = require('../../domain/exceptions/OrderAlreadyExistsException');
 
 class CreateOrder {
@@ -10,8 +11,9 @@ class CreateOrder {
     const existing = await this.orderRepository.findById(body.numeroPedido);
     if (existing) throw new OrderAlreadyExistsException(body.numeroPedido);
 
-    const order = Order.fromRequest(body);
-    return this.orderRepository.create(order);
+    const order = CreateOrderDTO.toEntity(body);
+    const created = await this.orderRepository.create(order);
+    return OrderResponseDTO.fromEntity(created);
   }
 }
 

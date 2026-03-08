@@ -1,10 +1,13 @@
+const OrderResponseDTO = require('../dtos/OrderResponseDTO');
+
 class ListOrders {
   constructor(orderRepository) {
     this.orderRepository = orderRepository;
   }
 
   async execute() {
-    return this.orderRepository.findAll();
+    const orders = await this.orderRepository.findAll();
+    return OrderResponseDTO.fromEntityList(orders);
   }
 }
 

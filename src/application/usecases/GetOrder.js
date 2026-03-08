@@ -1,3 +1,4 @@
+const OrderResponseDTO = require('../dtos/OrderResponseDTO');
 const OrderNotFoundException = require('../../domain/exceptions/OrderNotFoundException');
 
 class GetOrder {
@@ -8,7 +9,7 @@ class GetOrder {
   async execute(orderId) {
     const order = await this.orderRepository.findById(orderId);
     if (!order) throw new OrderNotFoundException(orderId);
-    return order;
+    return OrderResponseDTO.fromEntity(order);
   }
 }
 
